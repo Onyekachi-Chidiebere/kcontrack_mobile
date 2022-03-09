@@ -1,0 +1,89 @@
+import { StyleSheet } from "react-native";
+import { colors } from "../../../appTheme";
+
+const styles = StyleSheet.create({
+    firstBaackground:{
+        backgroundColor:colors.primary,
+        alignItems:'center'
+    },
+    profileTitle:{
+        width:'90%',
+        paddingVertical:20,
+        fontWeight:'bold',
+        fontSize:18,
+        color:colors.white
+
+    },
+    name:{
+        paddingVertical:10,
+        fontWeight:'bold',
+        fontSize:18,
+        color:colors.white
+    },
+    editBtn:{
+        backgroundColor:colors.white,
+        paddingVertical:10,
+        paddingHorizontal:20,
+        borderRadius:20
+    },
+    editTxt:{
+        color:colors.primary,
+        fontWeight:'bold',
+        fontSize:14,
+    },
+    backCheck:{
+        backgroundColor:'#4566BD',
+        flexDirection:'row',
+        paddingVertical:10,
+        paddingHorizontal:20,
+        alignItems:'center',
+        borderRadius:40,
+        marginBottom:40,
+        marginTop:20
+    },
+    checkTxt:{
+        color:colors.white,
+        fontWeight:'400',
+        fontSize:13,
+        marginLeft:10
+    },
+    secondPart:{
+        backgroundColor:colors.background,
+        position:'relative',
+        zIndex:10
+    },
+    overflow:{
+        width:'90%',
+        alignSelf:'center',
+        borderRadius:15,
+        elevation:10,
+        backgroundColor:colors.background,
+        top:-20,
+        alignItems:'center'
+    },
+    title:{
+        width:'90%',
+        fontWeight:'bold',
+        fontSize:16,
+        color:colors.darkText,
+        marginVertical:20
+    },
+    contentHolder:{
+        width:'90%',
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        marginBottom:20,
+
+    },
+    content:{
+        color:colors.lightText,
+        fontSize:14,
+        fontWeight:'500'
+    },
+    contentIcon:{
+        marginRight:30
+    }
+});
+
+export default styles;

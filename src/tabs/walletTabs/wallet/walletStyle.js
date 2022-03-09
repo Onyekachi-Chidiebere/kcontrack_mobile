@@ -1,0 +1,111 @@
+import { StyleSheet } from "react-native";
+import { colors } from "../../../appTheme";
+
+const styles = StyleSheet.create({
+    background:{
+        flex:1,
+        backgroundColor:colors.background
+    },
+    header:{
+        backgroundColor:colors.primary
+    },
+    firstHeader:{
+        flexDirection:'row',
+        width:'90%',
+        alignSelf:'center',
+        justifyContent:'space-between',
+        alignItems:'center',
+        marginVertical:20
+    },
+    currentLocation:{
+        flexDirection:'row',
+        alignItems:'center',
+        backgroundColor:'#365BB9',
+        paddingVertical:5,
+        paddingHorizontal:15,
+        borderRadius:20
+    },
+    currentLocationTxt:{
+        color:colors.white,
+        marginLeft:5,
+        fontSize:13,
+        fontWeight:'600'
+    },
+    recentEarning:{
+        color:'#F8CC32',
+        alignSelf:'center',
+        fontWeight:'500',
+        fontSize:14
+    },
+    amount:{
+        alignSelf:'center',
+        fontWeight:'700',
+        color:colors.white,
+        fontSize:36,
+        marginTop:5
+    },
+    withdrawalBtn:{
+        backgroundColor:'#40AD93',
+        borderRadius:4,
+        width:170,
+        alignSelf:'center',
+        paddingHorizontal:10,
+        paddingVertical:5,
+        marginBottom:50,
+        marginTop:10,
+    },
+    withdrawalTxt:{
+        color:colors.white,
+        fontWeight:'700',
+        fontSize:14
+    },
+    earningsHolder:{
+        width:'95%',
+        alignSelf:'center',
+        elevation:5,
+        backgroundColor:colors.white,
+        borderRadius:10,
+        paddingHorizontal:10,
+        paddingVertical:20,
+        top:-20
+    },
+    title:{
+        fontSize:16,
+        fontWeight:'600',
+        color:colors.darkText,
+    },
+    container:{
+        flexDirection:'row',
+        justifyContent:'space-between',
+        borderTopWidth:1,
+        borderColor:colors.midGrey,
+        marginTop:20,
+        paddingVertical:10,
+    },
+    containerIcon:{
+        flexDirection:'row',
+    },
+    earningDescription:{
+        fontSize:12,
+        fontWeight:'600',
+        color:colors.darkText,
+        marginLeft:10
+        
+    },
+    earningDate:{
+        marginLeft:10,
+        marginTop:5,
+        fontSize:12,
+        fontWeight:'600',
+        color:colors.lightText
+
+    },
+    earningAmount:{
+        color:colors.darkText,
+        fontWeight:'700',
+        fontSize:14
+
+    }
+});
+
+export default styles;
