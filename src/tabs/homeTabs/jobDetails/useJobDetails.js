@@ -1,68 +1,49 @@
-import { useReducer, useState } from 'react';
+import {useState} from 'react';
 import axios from 'axios';
-import { API_URL } from '../../../constants/helper';
-import { useNavigation } from '@react-navigation/native';
+import {API_URL} from '../../../constants/helper';
+import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 
-const useVerifyOtp = () => {
+const useJobDetails = () => {
+  const user = useSelector(state => state.user);
+  const [showSuccess, setShowSuccess] = useState(false);
   const navigation = useNavigation();
-  const phone_number = useSelector(state => state.user.phone);
   const errors = [];
   const [alert, setAlert] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [userData, setUserData] = useReducer(
-    (state, nextState) => ({...state, ...nextState}),
-    {
-      verification_code: '',
-      country_code: '+234',
-    },
-  );
 
-  const handleChange = (name, value) => setUserData({[name]: value});
-
-  const verifyOtp = async () => {
+  const apply = async id => {
     try {
       setLoading(true);
-      const {verification_code, country_code} = userData;
-      if (verification_code.trim() === '') {
-        setLoading(false);
-        return setAlert({
-          close: () => setAlert(false),
-          title: 'Error',
-          icon: 'error',
-          confirmText: 'Ok',
-          message: ['Please add a verification code'],
-        });
-      }
 
-      const response = await axios.post(`${API_URL}/auth/verify-phone`, {
-        phone_number,
-        verification_code,
-        country_code,
-      });
-      console.log({response: response.data.data});
-      setLoading(false);
-      return setAlert({
-        close: () => {
-          setAlert(false);
-          navigation.navigate('select-category');
+      const response = await axios.post(
+        `${API_URL}/application/store`,
+        {
+          job_offer_id: id,
         },
-        title: 'Success',
-        icon: 'success',
-        confirmText: 'Ok',
-        message: [response.data.data],
-      });
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${user.jwt}`,
+          },
+        },
+      );
+      //handle success
+      setLoading(false);
+      setShowSuccess(true);
     } catch (error) {
       setLoading(false);
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
+
         console.log('data', error.response.data);
         console.log('status', error.response.status);
         console.log('headers', error.response.headers);
         for (let key in error.response.data.errors)
           errors.push(error.response.data.errors[key]);
         errors.push(error.response.data.message);
+
         return setAlert({
           close: () => setAlert(false),
           title: 'Error',
@@ -80,24 +61,24 @@ const useVerifyOtp = () => {
         // Something happened in setting up the request that triggered an Error
         console.log('Error', error.message);
       }
+      console.log('config', error.config);
       return setAlert({
         close: () => setAlert(false),
         title: 'Error',
         icon: 'error',
         confirmText: 'Ok',
-        message: [error.message],
+        message: ['Network Error'],
       });
       //handle catch error
     }
   };
 
   return {
-    userData,
-    alert,
     loading,
-    handleChange,
-    verifyOtp,
+    alert,
+    showSuccess,
+    apply,
   };
 };
 
-export default useVerifyOtp;
+export default useJobDetails;

@@ -1,12 +1,12 @@
-import { useReducer, useState } from 'react';
+import {useReducer, useState} from 'react';
 import axios from 'axios';
-import { API_URL } from '../../../constants/helper';
-import { useNavigation } from '@react-navigation/native';
+import {API_URL} from '../../../constants/helper';
+import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 
-const useVerifyOtp = () => {
+const useVerifyEmail = () => {
   const navigation = useNavigation();
-  const phone_number = useSelector(state => state.user.phone);
+  const email = useSelector(state => state.user.email);
   const errors = [];
   const [alert, setAlert] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -14,7 +14,6 @@ const useVerifyOtp = () => {
     (state, nextState) => ({...state, ...nextState}),
     {
       verification_code: '',
-      country_code: '+234',
     },
   );
 
@@ -23,7 +22,8 @@ const useVerifyOtp = () => {
   const verifyOtp = async () => {
     try {
       setLoading(true);
-      const {verification_code, country_code} = userData;
+      const {verification_code} = userData;
+      console.log({verification_code});
       if (verification_code.trim() === '') {
         setLoading(false);
         return setAlert({
@@ -35,17 +35,15 @@ const useVerifyOtp = () => {
         });
       }
 
-      const response = await axios.post(`${API_URL}/auth/verify-phone`, {
-        phone_number,
-        verification_code,
-        country_code,
-      });
+      const response = await axios.get(
+        `${API_URL}/auth/verify?email=${email}&token=${verification_code}`,
+      );
       console.log({response: response.data.data});
       setLoading(false);
       return setAlert({
         close: () => {
           setAlert(false);
-          navigation.navigate('select-category');
+          navigation.navigate('login');
         },
         title: 'Success',
         icon: 'success',
@@ -100,4 +98,4 @@ const useVerifyOtp = () => {
   };
 };
 
-export default useVerifyOtp;
+export default useVerifyEmail;

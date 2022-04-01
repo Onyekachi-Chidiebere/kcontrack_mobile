@@ -30,7 +30,7 @@ const styles= StyleSheet.create({
     background:{
         position:'absolute',
         backgroundColor:'rgba(0,0,0,0.4)',
-        zIndex:2,
+        zIndex:3,
         height:'100%',
         width:'100%',
         justifyContent:'center',

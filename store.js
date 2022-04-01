@@ -3,7 +3,7 @@ import thunk from 'redux-thunk';
 import {userReducer} from './src/reducers/userReducer';
 
 const initialState = {
-	user: null,
+  user: {},
 };
 
 const reducer = combineReducers({

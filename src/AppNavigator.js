@@ -32,10 +32,13 @@ import JobDetails from './tabs/homeTabs/jobDetails/JobDetailsScreen';
 import Notifications from './tabs/homeTabs/notifications/Notification';
 import MyJobs from './tabs/jobTab/myJobs/MyJobs';
 import WalletScreen from './tabs/walletTabs/wallet/WalletScreen';
+import {useSelector} from 'react-redux';
 
 const AppNavigator = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
+  const isLoggedIn = useSelector(state => state.user.jwt);
+  console.log({isLoggedIn});
 
   //all routes in authentia=cation tab
   const AuthNav = () => {
@@ -119,7 +122,7 @@ const AppNavigator = () => {
           component={ContactSupport}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name="id-verification"
           component={IdVerification}
           options={{headerShown: false}}
@@ -130,48 +133,48 @@ const AppNavigator = () => {
 
   const Home = () => {
     return (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="home-tab"
-            component={HomeScreen}
-            options={{headerShown: false}}
-          />
-           <Stack.Screen
-            name="job-details"
-            component={JobDetails}
-            options={{headerShown: false}}
-          />
-            <Stack.Screen
-            name="notification"
-            component={Notifications}
-            options={{headerShown: false}}
-          />
-        </Stack.Navigator>
-      );
-  }
+      <Stack.Navigator>
+        <Stack.Screen
+          name="home-tab"
+          component={HomeScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="job-details"
+          component={JobDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="notification"
+          component={Notifications}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    );
+  };
   const MyJob = () => {
     return (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="job"
-            component={MyJobs}
-            options={{headerShown: false}}
-          />
-        </Stack.Navigator>
-      );
-  }
+      <Stack.Navigator>
+        <Stack.Screen
+          name="job"
+          component={MyJobs}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    );
+  };
 
   const WalletTab = () => {
     return (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="wallet-tab"
-            component={WalletScreen}
-            options={{headerShown: false}}
-          />
-        </Stack.Navigator>
-      );
-  }
+      <Stack.Navigator>
+        <Stack.Screen
+          name="wallet-tab"
+          component={WalletScreen}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    );
+  };
   const BottomNav = () => {
     return (
       <Tab.Navigator>
@@ -221,23 +224,25 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      <Stack.Screen
-          name="auth"
-          component={AuthNav}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="main"
-          component={BottomNav}
-          options={{headerShown: false}}
-        />
+        {isLoggedIn ? (
+          <Stack.Screen
+            name="main"
+            component={BottomNav}
+            options={{headerShown: false}}
+          />
+        ) : (
+          <Stack.Screen
+            name="auth"
+            component={AuthNav}
+            options={{headerShown: false}}
+          />
+        )}
+
         <Stack.Screen
           name="chat"
           component={LiveChat}
           options={{headerShown: false}}
         />
-
-       
       </Stack.Navigator>
     </NavigationContainer>
   );
