@@ -1,4 +1,9 @@
-import {LOGIN, LOGOUT, UPDATE_PROFILE} from '../constants/userConstant';
+import {
+  LOGIN,
+  LOGOUT,
+  UPDATE_APPLIED_JOBS,
+  UPDATE_PROFILE,
+} from '../constants/userConstant';
 
 const login = user => async dispatch => {
   try {
@@ -15,7 +20,13 @@ const updateProfile = user => async dispatch => {
     console.log(error);
   }
 };
-
+const updateAppliedJob = jobs => async dispatch => {
+  try {
+    dispatch({type: UPDATE_APPLIED_JOBS, payload: jobs});
+  } catch (error) {
+    console.log(error);
+  }
+};
 const logout = () => async dispatch => {
   try {
     dispatch({type: LOGOUT});
@@ -24,4 +35,4 @@ const logout = () => async dispatch => {
   }
 };
 
-export {logout, login, updateProfile};
+export {logout, login, updateProfile, updateAppliedJob};

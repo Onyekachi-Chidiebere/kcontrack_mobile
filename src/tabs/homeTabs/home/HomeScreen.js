@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {View, Text, Pressable, Image} from 'react-native';
 import CurrentLocation from '../../../images/currentLocation.svg';
 import Notification from '../../../images/notifications.svg';
@@ -15,15 +15,18 @@ import {BASE_URL} from '../../../constants/helper';
 import {useSelector} from 'react-redux';
 import moment from 'moment';
 import useHome from './useHome';
+import {useFocusEffect} from '@react-navigation/native';
 
 const HomeScreen = ({navigation}) => {
   const [data, setData] = useState([]);
   const user = useSelector(state => state.user);
   const {getJobs, jobs} = useHome();
 
-  useEffect(() => {
-    getJobs();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      getJobs();
+    }, []),
+  );
   return (
     <View style={styles.background}>
       <ScrollView>

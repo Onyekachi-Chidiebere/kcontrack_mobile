@@ -20,7 +20,7 @@ const VerifyOtp = ({navigation}) => {
         <Phone />
       </View>
       <Text style={styles.title}>Enter OTP</Text>
-      <Text style={styles.info}>We sent a 4 digit password to your phone</Text>
+      <Text style={styles.info}>We sent a 6 digit password to your phone</Text>
       <View style={styles.inputHolder}>
         <SmoothPinCodeInput
           password

@@ -17,6 +17,7 @@ const useSignup = () => {
       first_name: 'Chidi',
       last_name: '',
       phone: '',
+      country_code: '',
       zip_code: '',
       email: '',
       password: '123',
@@ -99,6 +100,7 @@ const useSignup = () => {
         email,
         zip_code,
         password,
+        country_code,
       } = userData;
       //ensure all required fields are provided;
 
@@ -192,6 +194,16 @@ const useSignup = () => {
           message: ['Password must have a minimum of 6 characters'],
         });
       }
+      if (!country_code) {
+        setLoading(false);
+        return setAlert({
+          close: () => setAlert(false),
+          title: 'Error',
+          icon: 'error',
+          confirmText: 'Ok',
+          message: ['Please select your current country'],
+        });
+      }
 
       const response = await axios.post(
         `${API_URL}/auth/register-kocntracker`,
@@ -204,7 +216,7 @@ const useSignup = () => {
           phone,
           zip_code,
           password_confirmation: password,
-          country_code: '+234',
+          country_code,
         },
       );
 

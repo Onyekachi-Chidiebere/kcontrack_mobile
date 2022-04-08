@@ -33,7 +33,7 @@ const VerifyEmail = ({navigation}) => {
           mask="﹡"
           cellSize={46}
           cellSpacing={10}
-          codeLength={5}
+          codeLength={6}
           cellStyle={styles.input}
           cellStyleFocused={styles.focusedInput}
           value={userData.verification_code}
