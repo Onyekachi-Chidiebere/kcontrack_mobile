@@ -14,13 +14,13 @@ const useSignup = () => {
   const [userData, setUserData] = useReducer(
     (state, nextState) => ({...state, ...nextState}),
     {
-      first_name: 'Chidi',
+      first_name: '',
       last_name: '',
       phone: '',
       country_code: '',
       zip_code: '',
       email: '',
-      password: '123',
+      password: '',
       user_type: 1,
     },
   );
@@ -222,7 +222,9 @@ const useSignup = () => {
 
       //handle success
       setLoading(false);
-      await dispatch(login({email: email.trim(), phone: phone.trim()}));
+      await dispatch(
+        login({email: email.trim(), phone: phone.trim(), country_code}),
+      );
       navigation.navigate('verify-otp');
     } catch (error) {
       setLoading(false);

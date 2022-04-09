@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux';
 const useVerifyOtp = () => {
   const navigation = useNavigation();
   const phone_number = useSelector(state => state.user.phone);
+  const country_code = useSelector(state => state.user.country_code);
   const errors = [];
   const [alert, setAlert] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -14,7 +15,6 @@ const useVerifyOtp = () => {
     (state, nextState) => ({...state, ...nextState}),
     {
       verification_code: '',
-      country_code: '+234',
     },
   );
 
@@ -23,7 +23,7 @@ const useVerifyOtp = () => {
   const verifyOtp = async () => {
     try {
       setLoading(true);
-      const {verification_code, country_code} = userData;
+      const {verification_code} = userData;
       if (verification_code.trim() === '') {
         setLoading(false);
         return setAlert({

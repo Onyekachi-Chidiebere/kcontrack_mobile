@@ -14,8 +14,8 @@ const useLogin = () => {
   const [userData, setUserData] = useReducer(
     (state, nextState) => ({...state, ...nextState}),
     {
-      email: 'onyekachichidiebere60@gmail.com',
-      password: '1234567',
+      email: '',
+      password: '',
     },
   );
 
