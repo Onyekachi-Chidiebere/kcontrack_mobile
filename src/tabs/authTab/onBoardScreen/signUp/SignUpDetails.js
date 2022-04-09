@@ -67,8 +67,8 @@ const SignUpDetails = ({navigation, params, param, route}) => {
             handleChange={handleChange}
             name="zip_code"
             value={userData.zip_code}
-            label="Zip Code"
-            placeholder={'Zip Code'}
+            label="Postal Code"
+            placeholder={'Postal Code'}
           />
         </View>
         <View style={styles.input}>

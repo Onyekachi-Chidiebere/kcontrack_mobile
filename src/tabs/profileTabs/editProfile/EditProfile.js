@@ -117,8 +117,8 @@ const EditProfile = ({navigation}) => {
             <Input
               handleChange={handleChange}
               editable={!loading}
-              label={'Zip code'}
-              placeholder={'zip code'}
+              label={'Postal code'}
+              placeholder={'Postal code'}
               name="zipcode"
               value={userData.zipcode}
             />

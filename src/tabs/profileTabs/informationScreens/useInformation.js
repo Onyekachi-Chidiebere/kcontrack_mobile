@@ -2,9 +2,11 @@ import {useReducer, useState} from 'react';
 import axios from 'axios';
 import {API_URL} from '../../../constants/helper';
 import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {updateProfileWallet} from '../../../actions/userActions';
 
 const useInformation = () => {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.user);
   const navigation = useNavigation();
   const errors = [];
@@ -25,7 +27,6 @@ const useInformation = () => {
   );
   const handleChange = (name, value) => setUserData({[name]: value});
 
-  console.log({social_security_number: user});
   const updatePayInformation = async () => {
     const {
       transit_number,
@@ -91,7 +92,14 @@ const useInformation = () => {
           },
         },
       );
-      console.log({responsehkk: response});
+      dispatch(
+        updateProfileWallet({
+          transit_number: transit_number.trim(),
+          institution_number: institution_number.trim(),
+          account_number: account_number.trim(),
+        }),
+      );
+      setLoading(false);
       return setAlert({
         close: () => {
           setAlert(false);
@@ -103,7 +111,6 @@ const useInformation = () => {
         message: ['Payment Information Updated successfully'],
       });
       //handle success
-      setLoading(false);
     } catch (error) {
       setLoading(false);
       if (error.response) {
