@@ -61,7 +61,7 @@ const JobDetails = ({navigation, route}) => {
 
           <Pressable onPress={() => apply(job.id)} style={styles.btn}>
             <Text style={styles.btnTxt}>
-              {loading ? 'Loading...' : 'Accept the job'}
+              {loading ? 'Loading...' : 'Apply'}
             </Text>
           </Pressable>
         </View>

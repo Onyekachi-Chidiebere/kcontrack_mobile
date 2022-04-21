@@ -1,6 +1,7 @@
 import React, {useCallback, useState} from 'react';
 import {View, Text, Pressable} from 'react-native';
 import styles from './myJobsStyle';
+import EmptyDashboard from '../../../images/emptyDashboard.svg';
 import Money from '../../../images/money.svg';
 import DarkLocation from '../../../images/darkLocation.svg';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -10,7 +11,7 @@ import {useFocusEffect} from '@react-navigation/native';
 
 const MyJobs = ({navigation}) => {
   const [recommmended, setRecommended] = useState(true);
-  const jobs = [
+  const jobsx = [
     {
       title: 'Line Cook',
       amount: 50,
@@ -36,11 +37,12 @@ const MyJobs = ({navigation}) => {
       status: 3,
     },
   ];
-  const {getAppliedJobs, user} = useMyJob();
+  const {getAppliedJobs, getRecommendedJobs, user, jobs} = useMyJob();
 
   useFocusEffect(
     useCallback(() => {
       getAppliedJobs();
+      getRecommendedJobs();
     }, []),
   );
   return (
@@ -72,6 +74,7 @@ const MyJobs = ({navigation}) => {
         </View>
         {recommmended ? (
           <View style={styles.emptyContainer}>
+            {jobs.length === 0 && <EmptyDashboard />}
             {jobs.map((job, key) => (
               <Pressable
                 onPress={() => navigation.navigate('job-details')}
@@ -100,20 +103,25 @@ const MyJobs = ({navigation}) => {
                 </View>
                 <View style={styles.jobMoneyHolder}>
                   <Money />
-                  <Text style={styles.jobMoneyTxt}>CAD {job.amount}/hr</Text>
+                  <Text style={styles.jobMoneyTxt}>
+                    CAD {job.hourly_rate}/hr
+                  </Text>
                 </View>
                 <View style={styles.jobLocationTime}>
                   <View style={styles.jobLocation}>
                     <DarkLocation />
-                    <Text style={styles.jobMoneyTxt}>{job.location}</Text>
+                    <Text style={styles.jobMoneyTxt}>{job.city}</Text>
                   </View>
-                  <Text style={styles.jobTimeTxt}>{job.date}</Text>
+                  <Text style={styles.jobTimeTxt}>
+                    {moment(job.start_date).format('MMMM Do YYYY, h:mm a')}
+                  </Text>
                 </View>
               </Pressable>
             ))}
           </View>
         ) : (
           <View style={styles.emptyContainer}>
+            {user.applied_jobs.length === 0 && <EmptyDashboard />}
             {user.applied_jobs.map(({job_offer}, key) => (
               <Pressable
                 onPress={() => navigation.navigate('job-details')}
