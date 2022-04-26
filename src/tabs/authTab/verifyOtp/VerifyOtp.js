@@ -32,7 +32,6 @@ const VerifyOtp = ({navigation}) => {
           cellStyleFocused={styles.focusedInput}
           value={userData.verification_code}
           onTextChange={pin => handleChange('verification_code', pin)}
-          onFulfill={verifyOtp}
         />
       </View>
       <Pressable style={styles.btn} onPress={verifyOtp}>

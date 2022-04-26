@@ -17,7 +17,7 @@ const useSignup = () => {
       first_name: '',
       last_name: '',
       phone: '',
-      country_code: '',
+      country_code: '+1',
       zip_code: '',
       email: '',
       password: '',

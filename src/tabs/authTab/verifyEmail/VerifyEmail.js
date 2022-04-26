@@ -38,7 +38,6 @@ const VerifyEmail = ({navigation}) => {
           cellStyleFocused={styles.focusedInput}
           value={userData.verification_code}
           onTextChange={pin => handleChange('verification_code', pin)}
-          onFulfill={verifyOtp}
         />
       </View>
       <Pressable onPress={verifyOtp} style={styles.openEmail}>

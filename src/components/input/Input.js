@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     top: -10,
     left: 5,
     backgroundColor: colors.background,
+    color: colors.darkText,
     zIndex: 2,
   },
   focused: {
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     backgroundColor: colors.background,
     borderRadius: 4,
+    color: colors.darkText,
   },
   input: {
     elevation: 2,

@@ -14,8 +14,8 @@ const CountryCode = ({close, select}) => {
         paddingHorizontal: 20,
         paddingVertical: 10,
       }}>
-      <Text style={{width: 50}}>{code}</Text>
-      <Text>{title}</Text>
+      <Text style={{width: 50, color: 'black'}}>{code}</Text>
+      <Text style={{color: 'black'}}>{title}</Text>
     </Pressable>
   );
 
@@ -65,6 +65,7 @@ const CountryCode = ({close, select}) => {
             borderWidth: 1,
             borderColor: 'grey',
             paddingHorizontal: 10,
+            color: 'black',
           }}
           placeholder="Search"
           onChangeText={text => setQuerry(text)}
