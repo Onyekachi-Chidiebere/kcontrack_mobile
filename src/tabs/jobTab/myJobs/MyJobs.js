@@ -11,32 +11,7 @@ import {useFocusEffect} from '@react-navigation/native';
 
 const MyJobs = ({navigation}) => {
   const [recommmended, setRecommended] = useState(true);
-  const jobsx = [
-    {
-      title: 'Line Cook',
-      amount: 50,
-      category: 'Hospitality',
-      location: 'Toronto, Canada',
-      date: 'Jan. 31 2022 08:30am',
-      status: 1,
-    },
-    {
-      title: 'Contruction worker',
-      category: 'General Labour',
-      amount: 50,
-      location: 'Toronto, Canada',
-      date: 'Jan. 31 2022 08:30am',
-      status: 2,
-    },
-    {
-      title: 'Manager',
-      category: 'Hospitality',
-      amount: 50,
-      location: 'Toronto, Canada',
-      date: 'Jan. 31 2022 08:30am',
-      status: 3,
-    },
-  ];
+  
   const {getAppliedJobs, getRecommendedJobs, user, jobs} = useMyJob();
 
   useFocusEffect(
@@ -77,7 +52,7 @@ const MyJobs = ({navigation}) => {
             {jobs.length === 0 && <EmptyDashboard />}
             {jobs.map((job, key) => (
               <Pressable
-                onPress={() => navigation.navigate('job-details')}
+                onPress={() => navigation.navigate('job-details',job)}
                 key={key}
                 style={styles.jobDetailsHolder}>
                 <View style={styles.jobDetailsTitle}>
@@ -124,7 +99,9 @@ const MyJobs = ({navigation}) => {
             {user.applied_jobs.length === 0 && <EmptyDashboard />}
             {user.applied_jobs.map(({job_offer}, key) => (
               <Pressable
-                onPress={() => navigation.navigate('job-details')}
+                onPress={() =>
+                  navigation.navigate('job-details', job_offer)
+                }
                 key={key}
                 style={styles.jobDetailsHolder}>
                 <View style={styles.jobDetailsTitle}>

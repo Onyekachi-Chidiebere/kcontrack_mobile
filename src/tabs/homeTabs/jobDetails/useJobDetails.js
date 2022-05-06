@@ -2,10 +2,13 @@ import {useState} from 'react';
 import axios from 'axios';
 import {API_URL} from '../../../constants/helper';
 import {useSelector} from 'react-redux';
+import Geolocation from '@react-native-community/geolocation';
+import Polyline from '@mapbox/polyline';
 
 const useJobDetails = () => {
   const user = useSelector(state => state.user);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [coordsData, setCoordsData] = useState(false);
   const errors = [];
   const [alert, setAlert] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -94,12 +97,70 @@ const useJobDetails = () => {
       //handle catch error
     }
   };
+  const locate = job =>
+    Geolocation.getCurrentPosition(
+      async position => {
+        setLoading(true);
 
+        let data = await getDirections(
+          `${position.coords.latitude}, ${position.coords.longitude}`,
+          `${job.city}`,
+        );
+        setLoading(false);
+        if (data)
+          setCoordsData({
+            longitude: position.coords.longitude,
+            latitude: position.coords.latitude,
+            coords: data,
+          });
+      },
+      error => {
+        setLoading(false);
+        console.log({error});
+        return false;
+      },
+      {enableHighAccuracy: true, timeout: 5000},
+    );
+  const getDirections = async (startLoc, destinationLoc) => {
+    try {
+      let resp = await fetch(
+        `https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}&key=AIzaSyCKLnC-xAH8lNbHuCJIZ2PNTw-5RKr4zek`,
+      );
+      let respJson = await resp.json();
+      if (respJson.status === 'ZERO_RESULTS') {
+        console.log('cant find location');
+        return setAlert({
+          close: () => setAlert(false),
+          title: 'Error',
+          icon: 'error',
+          confirmText: 'Ok',
+          message: ['Unable to find location'],
+        });
+        return false;
+      }
+
+      let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
+      let coords = points.map((point, index) => {
+        return {
+          latitude: point[0],
+          longitude: point[1],
+        };
+      });
+      return coords;
+    } catch (error) {
+      alert(error);
+      return error;
+    }
+  };
   return {
     loading,
     alert,
     showSuccess,
+    user,
+    coordsData,
     apply,
+    locate,
+    setCoordsData,
   };
 };
 

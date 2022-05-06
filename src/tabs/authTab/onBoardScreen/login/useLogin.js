@@ -1,6 +1,6 @@
-import { useReducer, useState } from 'react';
+import {useReducer, useState} from 'react';
 import axios from 'axios';
-import { API_URL } from '../../../../constants/helper';
+import {API_URL} from '../../../../constants/helper';
 import {useNavigation} from '@react-navigation/native';
 import {login} from '../../../../actions/userActions';
 import {useDispatch} from 'react-redux';
@@ -14,8 +14,8 @@ const useLogin = () => {
   const [userData, setUserData] = useReducer(
     (state, nextState) => ({...state, ...nextState}),
     {
-      email: '',
-      password: '',
+      email: 'eluihenryalex@outlook.com',
+      password: '##Chiedozie22',
     },
   );
 

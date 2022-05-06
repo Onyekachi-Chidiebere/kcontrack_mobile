@@ -33,6 +33,7 @@ import Notifications from './tabs/homeTabs/notifications/Notification';
 import MyJobs from './tabs/jobTab/myJobs/MyJobs';
 import WalletScreen from './tabs/walletTabs/wallet/WalletScreen';
 import {useSelector} from 'react-redux';
+import Direction from './tabs/homeTabs/direction/Direction';
 
 const AppNavigator = () => {
   const Stack = createStackNavigator();
@@ -142,6 +143,11 @@ const AppNavigator = () => {
         <Stack.Screen
           name="job-details"
           component={JobDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="job-direction"
+          component={Direction}
           options={{headerShown: false}}
         />
         <Stack.Screen

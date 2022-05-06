@@ -2,6 +2,7 @@
   package="com.kcontract_mobile">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
       android:name=".MainApplication"
@@ -10,6 +11,11 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/BootTheme">
+      
+      <meta-data 
+        android:name="com.google.android.geo.API_KEY"
+        android:value="AIzaSyCKLnC-xAH8lNbHuCJIZ2PNTw-5RKr4zek"
+        />
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

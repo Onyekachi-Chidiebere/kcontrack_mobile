@@ -1,7 +1,8 @@
-import React,{useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Pressable, ScrollView, Image} from 'react-native';
 import ArrBack from '../../../images/whiteArrBack.svg';
 import Dot from '../../../images/emptyCheck.svg';
+import DirectionIcon from '../../../images/directionIcon.svg';
 import Notification from '../../../images/notifications.svg';
 import Background from '../../../images/jobImageBackground.svg';
 import styles from './jobDetailsStyle';
@@ -12,8 +13,30 @@ import CustomAlert from '../../../components/alert/CustomAlert';
 
 const JobDetails = ({navigation, route}) => {
   const job = route.params;
-  console.log({job: job.id});
-  const {loading, showSuccess, alert, apply} = useJobDetails();
+  const {
+    loading,
+    showSuccess,
+    alert,
+    apply,
+    user,
+    locate,
+    coordsData,
+    setCoordsData,
+  } = useJobDetails();
+
+  const isApplied = user.applied_jobs.find(
+    ({job_offer}) => job_offer.id === job.id,
+  );
+  const [coords, setCoords] = useState([]);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
+  useEffect(() => {
+    if (coordsData) {
+      navigation.navigate('job-direction', coordsData);
+      setCoordsData(false);
+    }
+  });
+
   return (
     <View style={styles.background}>
       {alert && <CustomAlert alert={alert} />}
@@ -59,11 +82,32 @@ const JobDetails = ({navigation, route}) => {
           <Text style={styles.descriptionTitle}>Arrival Instructions</Text>
           <Text style={styles.descriptionTxt}>{job.arrival_instructions}</Text>
 
-          <Pressable onPress={() => apply(job.id)} style={styles.btn}>
-            <Text style={styles.btnTxt}>
-              {loading ? 'Loading...' : 'Apply'}
-            </Text>
-          </Pressable>
+          {isApplied ? (
+            <View style={styles.directionHolder}>
+              <Pressable
+                onPress={() => locate(job)}
+                style={styles.directionBtn}>
+                <DirectionIcon />
+                <Text style={styles.directionBtnTxt}>
+                  {loading ? 'Loading...' : 'Directions'}
+                </Text>
+              </Pressable>
+              <Pressable
+                // onPress={() => apply(job.id)}
+                style={styles.cancelBtn}>
+                <Text style={styles.cancelBtnTxt}>{'Cancel Job'}</Text>
+              </Pressable>
+            </View>
+          ) : (
+            <Pressable
+              disabled={isApplied}
+              onPress={() => apply(job.id)}
+              style={styles.btn}>
+              <Text style={styles.btnTxt}>
+                {loading ? 'Loading...' : 'Apply'}
+              </Text>
+            </Pressable>
+          )}
         </View>
         <View height={100} />
       </ScrollView>
