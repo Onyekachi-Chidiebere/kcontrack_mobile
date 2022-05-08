@@ -4,6 +4,7 @@ import {API_URL} from '../../../constants/helper';
 import {useSelector} from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
 import Polyline from '@mapbox/polyline';
+import {Linking} from 'react-native';
 
 const useJobDetails = () => {
   const user = useSelector(state => state.user);
@@ -102,21 +103,61 @@ const useJobDetails = () => {
       async position => {
         setLoading(true);
 
-        let data = await getDirections(
-          `${position.coords.latitude}, ${position.coords.longitude}`,
-          `${job.city}`,
-        );
-        setLoading(false);
-        if (data)
-          setCoordsData({
-            longitude: position.coords.longitude,
-            latitude: position.coords.latitude,
-            coords: data,
-          });
+        Linking.canOpenURL(
+          `https://www.google.com/maps/dir/?api=1&origin=${
+            position.coords.latitude
+          }},${position.coords.longitude}}&destination=${encodeURI(job.city)}`,
+        ).then(supported => {
+          setLoading(false);
+          if (supported) {
+            Linking.openURL(
+              `https://www.google.com/maps/dir/?api=1&origin=${
+                position.coords.latitude
+              },${position.coords.longitude}&destination=${encodeURI(
+                job.city,
+              )}`,
+            );
+          } else {
+            setAlert({
+              close: () => setAlert(false),
+              title: 'Error',
+              icon: 'error',
+              confirmText: 'Ok',
+              message: ['Unable to find location'],
+            });
+            console.log(
+              "Don't know how to open URI: " +
+                `https://www.google.com/maps/dir/?api=1&origin=${
+                  position.coords.latitude
+                },${position.coords.longitude}&destination=${encodeURI(
+                  job.city,
+                )}`,
+            );
+          }
+        });
+
+        // let data = await getDirections(
+        //   `${position.coords.latitude}, ${position.coords.longitude}`,
+        //   `${job.city}`,
+        // );
+        // setLoading(false);
+        // if (data)
+        //   setCoordsData({
+        //     longitude: position.coords.longitude,
+        //     latitude: position.coords.latitude,
+        //     coords: data,
+        //   });
       },
       error => {
         setLoading(false);
         console.log({error});
+        setAlert({
+          close: () => setAlert(false),
+          title: 'Error',
+          icon: 'error',
+          confirmText: 'Ok',
+          message: ['Unable to find location'],
+        });
         return false;
       },
       {enableHighAccuracy: true, timeout: 5000},
