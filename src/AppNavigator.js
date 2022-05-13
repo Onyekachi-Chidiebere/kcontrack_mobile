@@ -34,6 +34,7 @@ import MyJobs from './tabs/jobTab/myJobs/MyJobs';
 import WalletScreen from './tabs/walletTabs/wallet/WalletScreen';
 import {useSelector} from 'react-redux';
 import Direction from './tabs/homeTabs/direction/Direction';
+import CheckIn from './tabs/homeTabs/checkIn/CheckIn';
 
 const AppNavigator = () => {
   const Stack = createStackNavigator();
@@ -148,6 +149,11 @@ const AppNavigator = () => {
         <Stack.Screen
           name="job-direction"
           component={Direction}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="checkin"
+          component={CheckIn}
           options={{headerShown: false}}
         />
         <Stack.Screen

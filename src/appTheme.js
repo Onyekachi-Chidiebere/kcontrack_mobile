@@ -13,4 +13,5 @@ export const colors = {
   lightestGrey: '#F5F5F5',
   midGrey: '#C4C4C4',
   black: 'black',
+  lightdark:'#F7F8F9'
 };

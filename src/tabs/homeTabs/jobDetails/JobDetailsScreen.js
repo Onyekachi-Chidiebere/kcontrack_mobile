@@ -93,6 +93,13 @@ const JobDetails = ({navigation, route}) => {
                 </Text>
               </Pressable>
               <Pressable
+                onPress={() => navigation.navigate('checkin')}
+                style={styles.directionBtn}>
+                <Text style={styles.directionBtnTxt}>
+                  {loading ? 'Loading...' : 'Check In'}
+                </Text>
+              </Pressable>
+              <Pressable
                 // onPress={() => apply(job.id)}
                 style={styles.cancelBtn}>
                 <Text style={styles.cancelBtnTxt}>{'Cancel Job'}</Text>
