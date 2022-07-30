@@ -1,2 +1,2 @@
-export const API_URL = 'http://api.kontrack.ca/api/v1';
-export const BASE_URL = 'http://api.kontrack.ca/storage';
+export const API_URL = 'https://api.kcontrack.com/api/v1';
+export const BASE_URL = 'https://api.kcontrack.com/storage';

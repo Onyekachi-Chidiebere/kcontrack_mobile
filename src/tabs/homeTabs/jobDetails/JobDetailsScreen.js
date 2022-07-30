@@ -10,6 +10,7 @@ import Success from './applicationSent/Success';
 import {BASE_URL} from '../../../constants/helper';
 import useJobDetails from './useJobDetails';
 import CustomAlert from '../../../components/alert/CustomAlert';
+import QRCodeScanner from 'react-native-qrcode-scanner';
 
 const JobDetails = ({navigation, route}) => {
   const job = route.params;
@@ -22,7 +23,11 @@ const JobDetails = ({navigation, route}) => {
     locate,
     coordsData,
     setCoordsData,
-  } = useJobDetails();
+    showScan,
+    setShowScan,
+    onScan,
+    scanning,
+  } = useJobDetails(job);
 
   const isApplied = user.applied_jobs.find(
     ({job_offer}) => job_offer.id === job.id,
@@ -36,11 +41,30 @@ const JobDetails = ({navigation, route}) => {
       setCoordsData(false);
     }
   });
-
   return (
     <View style={styles.background}>
       {alert && <CustomAlert alert={alert} />}
       {showSuccess && <Success close={() => navigation.pop()} />}
+      {showScan && (
+        <View
+          style={{
+            backgroundColor: 'grey',
+            height: '100%',
+            position: 'absolute',
+            zIndex: 5,
+          }}>
+          <QRCodeScanner
+            onRead={onScan}
+            bottomContent={
+              <Pressable
+                onPress={() => setShowScan(false)}
+                style={styles.buttonTouchable}>
+                <Text style={styles.buttonText}>Cancel</Text>
+              </Pressable>
+            }
+          />
+        </View>
+      )}
       <ScrollView>
         <View style={styles.backgroundImageHolder}>
           <Background />
@@ -93,14 +117,29 @@ const JobDetails = ({navigation, route}) => {
                 </Text>
               </Pressable>
               <Pressable
-                onPress={() => navigation.navigate('checkin')}
+                onPress={() => setShowScan(true)}
+                // onPress={() => navigation.navigate('checkin')}
                 style={styles.directionBtn}>
                 <Text style={styles.directionBtnTxt}>
-                  {loading ? 'Loading...' : 'Check In'}
+                  {scanning ? 'Loading...' : 'Check In'}
                 </Text>
               </Pressable>
               <Pressable
                 // onPress={() => apply(job.id)}
+                onPress={() => {
+                  let options = {
+                    // year: 'numeric',
+                    // month: 'numeric',
+                    day: 'numeric',
+                  };
+                  console.log(
+                    `${new Date().getFullYear()}-${String(
+                      new Date().getDate(),
+                    ).padStart(2, '0')}-${String(
+                      new Date().getMonth() + 1,
+                    ).padStart(2, '0')}:00:00:00`,
+                  );
+                }}
                 style={styles.cancelBtn}>
                 <Text style={styles.cancelBtnTxt}>{'Cancel Job'}</Text>
               </Pressable>

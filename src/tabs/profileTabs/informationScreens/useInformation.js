@@ -43,7 +43,7 @@ const useInformation = () => {
           title: 'Error',
           icon: 'error',
           confirmText: 'Ok',
-          message: ['Please provide a valid account number'],
+          message: ['Account Number must be 7 digits'],
         });
       }
       if (account_number !== account_number_confirmation) {

@@ -5,14 +5,18 @@ import {useSelector} from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
 import Polyline from '@mapbox/polyline';
 import {Linking} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-const useJobDetails = () => {
+const useJobDetails = job => {
   const user = useSelector(state => state.user);
   const [showSuccess, setShowSuccess] = useState(false);
   const [coordsData, setCoordsData] = useState(false);
   const errors = [];
   const [alert, setAlert] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showScan, setShowScan] = useState(false);
+  const [scanning, setScanning] = useState(false);
+  const navigation = useNavigation();
 
   const apply = async id => {
     try {
@@ -98,6 +102,78 @@ const useJobDetails = () => {
       //handle catch error
     }
   };
+  const onScan = async props => {
+    try {
+      const data = props.data.split('*');
+      console.log({
+        date: data[1],
+        companyId: data[0],
+        job_id: job.id,
+        userId: user.id,
+        jwt: user.jwt,
+      });
+      setScanning(true);
+      setShowScan(false);
+      console.log({
+        job_id: job.id,
+        date: data[1],
+        user_id: user.id,
+        company_id: data[0],
+      });
+      const response = await axios.post(
+        `${API_URL}/application/checkin`,
+        {
+          job_id: job.id,
+          date: data[1],
+          user_id: user.id,
+          company_id: data[0],
+        },
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${user.jwt}`,
+          },
+        },
+      );
+      setScanning(false);
+      //navigate to logged in screen
+      console.log({response});
+      navigation.navigate('checkin');
+    } catch (error) {
+      setScanning(false);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        setAlert({
+          close: () => setAlert(false),
+          title: 'Error',
+          icon: 'error',
+          confirmText: 'Ok',
+          message: [error.response.data.message],
+        });
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.log(error.request);
+        setAlert({
+          close: () => setAlert(false),
+          title: 'Error',
+          icon: 'error',
+          confirmText: 'Ok',
+          message: ['Network error'],
+        });
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+        setAlert({
+          close: () => setAlert(false),
+          title: 'Error',
+          icon: 'error',
+          confirmText: 'Ok',
+          message: ['Unable to check in'],
+        });
+      }
+    }
+  };
+
   const locate = job =>
     Geolocation.getCurrentPosition(
       async position => {
@@ -202,6 +278,10 @@ const useJobDetails = () => {
     apply,
     locate,
     setCoordsData,
+    showScan,
+    scanning,
+    setShowScan,
+    onScan,
   };
 };
 
