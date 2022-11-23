@@ -76,7 +76,9 @@ const HomeScreen = ({navigation}) => {
           {jobs.length === 0 && <EmptyDashboard />}
           {jobs.map((job, key) => (
             <Pressable
-              onPress={() => navigation.navigate('job-details', job)}
+              onPress={() =>
+                navigation.navigate('job-details', {job_offer: job})
+              }
               key={key}
               style={styles.jobDetailsHolder}>
               <View style={styles.jobDetailsTitle}>

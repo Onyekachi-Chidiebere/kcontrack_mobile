@@ -45,7 +45,6 @@ const useIdVerification = () => {
 
   const updateIdVerification = async () => {
     try {
-      console.log('sending');
       setLoading(true);
 
       const response = await axios.post(
@@ -77,15 +76,12 @@ const useIdVerification = () => {
       });
       //handle success
     } catch (error) {
-      console.log('error');
       setLoading(false);
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
 
         console.log('data', error.response.data);
-        console.log('status', error.response.status);
-        console.log('headers', error.response.headers);
         for (let key in error.response.data.errors)
           errors.push(error.response.data.errors[key]);
         errors.push(error.response.data.message);

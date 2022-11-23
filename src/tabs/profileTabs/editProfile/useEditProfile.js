@@ -60,7 +60,6 @@ const useEditProfile = () => {
     }
   }, []);
 
-  console.log({jjj: user.picture});
   const updateUser = async () => {
     const {email, phone, firstname, lastname, gender, zipcode} = userData;
     try {
@@ -147,7 +146,6 @@ const useEditProfile = () => {
           },
         },
       );
-      console.log({responsehkk: response.data.data.user});
       dispatch(updateProfile(response.data.data.user));
       navigation.pop();
       //handle success
@@ -159,8 +157,6 @@ const useEditProfile = () => {
         // that falls out of the range of 2xx
 
         console.log('data', error.response.data);
-        console.log('status', error.response.status);
-        console.log('headers', error.response.headers);
         for (let key in error.response.data.errors)
           errors.push(error.response.data.errors[key]);
         errors.push(error.response.data.message);

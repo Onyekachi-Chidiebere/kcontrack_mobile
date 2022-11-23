@@ -23,7 +23,6 @@ const useVerifyEmail = () => {
     try {
       setLoading(true);
       const {verification_code} = userData;
-      console.log({verification_code});
       if (verification_code.trim() === '') {
         setLoading(false);
         return setAlert({
@@ -38,7 +37,6 @@ const useVerifyEmail = () => {
       const response = await axios.get(
         `${API_URL}/auth/verify?email=${email}&token=${verification_code}`,
       );
-      console.log({response: response.data.data});
       setLoading(false);
       return setAlert({
         close: () => {
@@ -56,8 +54,6 @@ const useVerifyEmail = () => {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         console.log('data', error.response.data);
-        console.log('status', error.response.status);
-        console.log('headers', error.response.headers);
         for (let key in error.response.data.errors)
           errors.push(error.response.data.errors[key]);
         errors.push(error.response.data.message);

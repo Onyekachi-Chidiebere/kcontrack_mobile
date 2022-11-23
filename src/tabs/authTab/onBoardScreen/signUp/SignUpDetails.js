@@ -20,7 +20,6 @@ const SignUpDetails = ({navigation, params, param, route}) => {
   };
 
   useEffect(() => {
-    console.log('updating');
     handleUpdate();
   }, []);
   return (

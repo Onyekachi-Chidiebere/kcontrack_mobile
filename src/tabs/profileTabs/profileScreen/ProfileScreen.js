@@ -8,7 +8,6 @@ import {BASE_URL} from '../../../constants/helper';
 
 const ProfileScreen = ({navigation}) => {
   const user = useSelector(state => state.user);
-  console.log({user});
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   return (

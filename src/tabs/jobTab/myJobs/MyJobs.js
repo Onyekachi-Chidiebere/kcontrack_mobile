@@ -36,7 +36,7 @@ const MyJobs = ({navigation}) => {
             onPress={() => setRecommended(true)}
             style={recommmended ? styles.selectedBtn : styles.btn}>
             <Text style={recommmended ? styles.selectedBtnTxt : styles.btnTxt}>
-              Recommended
+              Current Jobs
             </Text>
           </Pressable>
           <Pressable
@@ -52,13 +52,15 @@ const MyJobs = ({navigation}) => {
             {jobs.length === 0 && <EmptyDashboard />}
             {jobs.map((job, key) => (
               <Pressable
-                onPress={() => navigation.navigate('job-details',job)}
+                onPress={() => navigation.navigate('job-details', job)}
                 key={key}
                 style={styles.jobDetailsHolder}>
                 <View style={styles.jobDetailsTitle}>
-                  <Text style={styles.jobTitle}>{job.title}</Text>
+                  <Text style={styles.jobTitle}>{job.job_offer.title}</Text>
                   {recommmended ? (
-                    <Text style={styles.jobCategory}>{job.category}</Text>
+                    <Text style={styles.jobCategory}>
+                      {job.job_offer.category}
+                    </Text>
                   ) : (
                     <Text
                       style={
@@ -79,13 +81,13 @@ const MyJobs = ({navigation}) => {
                 <View style={styles.jobMoneyHolder}>
                   <Money />
                   <Text style={styles.jobMoneyTxt}>
-                    CAD {job.hourly_rate}/hr
+                    CAD {job.job_offer.hourly_rate}/hr
                   </Text>
                 </View>
                 <View style={styles.jobLocationTime}>
                   <View style={styles.jobLocation}>
                     <DarkLocation />
-                    <Text style={styles.jobMoneyTxt}>{job.city}</Text>
+                    <Text style={styles.jobMoneyTxt}>{job.job_offer.city}</Text>
                   </View>
                   <Text style={styles.jobTimeTxt}>
                     {moment(job.start_date).format('MMMM Do YYYY, h:mm a')}
@@ -99,9 +101,7 @@ const MyJobs = ({navigation}) => {
             {user.applied_jobs.length === 0 && <EmptyDashboard />}
             {user.applied_jobs.map(({job_offer}, key) => (
               <Pressable
-                onPress={() =>
-                  navigation.navigate('job-details', job_offer)
-                }
+                onPress={() => navigation.navigate('job-details', job_offer)}
                 key={key}
                 style={styles.jobDetailsHolder}>
                 <View style={styles.jobDetailsTitle}>

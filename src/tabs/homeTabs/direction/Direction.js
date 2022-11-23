@@ -4,7 +4,6 @@ import {WebView} from 'react-native-webview';
 
 const Direction = ({route}) => {
   const {latitude, longitude, coords} = route.params;
-  console.log({uri:encodeURI('hello there')})
   Linking.canOpenURL(
     `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=Be%C5%9Fikkaya%2C%202044%2F1.%20Sk.%2C%2006230%20Alt%C4%B1nda%C4%9F%2FAnkara%2C%20Turqu%C3%ADa&destination_place_id=ChIJn-ZptRFT0xQRGUyoJX2s8Wc`,
   ).then(supported => {

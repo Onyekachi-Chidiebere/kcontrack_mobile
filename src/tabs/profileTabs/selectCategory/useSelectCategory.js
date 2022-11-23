@@ -29,7 +29,6 @@ const useSelectCategory = () => {
       setLoading(true);
 
       const response = await axios.get(`${API_URL}/categories`);
-      console.log({response: response.data.data});
       setCategories(response.data.data);
       //handle success
       setLoading(false);
@@ -39,8 +38,6 @@ const useSelectCategory = () => {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         console.log('data', error.response.data);
-        console.log('status', error.response.status);
-        console.log('headers', error.response.headers);
         for (let key in error.response.data.errors)
           errors.push(error.response.data.errors[key]);
         return setAlert({
@@ -79,7 +76,6 @@ const useSelectCategory = () => {
         phone: phone_number,
         categories: selectedCategory,
       });
-      console.log({response});
       //handle success
       setLoading(false);
       return setAlert({
@@ -98,8 +94,6 @@ const useSelectCategory = () => {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         console.log('data', error.response.data);
-        console.log('status', error.response.status);
-        console.log('headers', error.response.headers);
         for (let key in error.response.data.errors)
           errors.push(error.response.data.errors[key]);
         return setAlert({

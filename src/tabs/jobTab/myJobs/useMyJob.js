@@ -17,19 +17,26 @@ const useMyJob = () => {
       setLoading(true);
       //ensure all required fields are provided;
 
-      const response = await axios.get(`${API_URL}/job/index`, {
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          Authorization: `Bearer ${user.jwt}`,
+      // const response = await axios.get(`${API_URL}/job/index`, {
+      //   headers: {
+      //     'Access-Control-Allow-Origin': '*',
+      //     Authorization: `Bearer ${user.jwt}`,
+      //   },
+      // });
+
+      const response = await axios.get(
+        `${API_URL}/application/kcontracker/me`,
+        {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${user.jwt}`,
+          },
         },
-      });
-  
-      //handle success
-      setJobs(
-        response.data.data.filter(job =>
-          user.profile.job_categories.includes(job.category),
-        ),
       );
+
+
+      //handle success
+      setJobs(response.data.data);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -38,8 +45,6 @@ const useMyJob = () => {
         // that falls out of the range of 2xx
 
         console.log('data', error.response.data);
-        console.log('status', error.response.status);
-        console.log('headers', error.response.headers);
         for (let key in error.response.data.errors)
           errors.push(error.response.data.errors[key]);
         errors.push(error.response.data.message);
@@ -98,8 +103,6 @@ const useMyJob = () => {
         // that falls out of the range of 2xx
 
         console.log('data', error.response.data);
-        console.log('status', error.response.status);
-        console.log('headers', error.response.headers);
         for (let key in error.response.data.errors)
           errors.push(error.response.data.errors[key]);
         errors.push(error.response.data.message);
@@ -132,6 +135,8 @@ const useMyJob = () => {
       //handle catch error
     }
   };
+
+
 
   return {
     loading,

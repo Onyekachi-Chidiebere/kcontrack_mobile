@@ -232,8 +232,6 @@ const useSignup = () => {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
         console.log('data', error.response.data);
-        console.log('status', error.response.status);
-        console.log('headers', error.response.headers);
         for (let key in error.response.data.errors)
           errors.push(error.response.data.errors[key]);
         return setAlert({

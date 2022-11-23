@@ -40,7 +40,6 @@ const AppNavigator = () => {
   const Stack = createStackNavigator();
   const Tab = createBottomTabNavigator();
   const isLoggedIn = useSelector(state => state.user.jwt);
-  console.log({isLoggedIn});
 
   //all routes in authentia=cation tab
   const AuthNav = () => {

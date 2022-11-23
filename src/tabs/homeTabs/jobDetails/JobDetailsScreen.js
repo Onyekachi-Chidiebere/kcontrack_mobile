@@ -26,11 +26,12 @@ const JobDetails = ({navigation, route}) => {
     showScan,
     setShowScan,
     onScan,
+    getCheckinStatus,
     scanning,
   } = useJobDetails(job);
 
   const isApplied = user.applied_jobs.find(
-    ({job_offer}) => job_offer.id === job.id,
+    ({job_offer}) => job_offer.id === job.job_offer.id,
   );
   const [coords, setCoords] = useState([]);
   const [latitude, setLatitude] = useState(0);
@@ -40,7 +41,9 @@ const JobDetails = ({navigation, route}) => {
       navigation.navigate('job-direction', coordsData);
       setCoordsData(false);
     }
-  });
+    //check if the job is coming from accepted jobs and check login status;
+    if (job.id) getCheckinStatus(job.id);
+  }, []);
   return (
     <View style={styles.background}>
       {alert && <CustomAlert alert={alert} />}
@@ -86,30 +89,32 @@ const JobDetails = ({navigation, route}) => {
               borderRadius: 10,
               marginBottom: 20,
             }}
-            source={{uri: `${BASE_URL}/${job.company.user.picture}`}}
+            source={{uri: `${BASE_URL}/${job.job_offer.company.user.picture}`}}
           />
         </View>
         <View style={styles.contentHolder}>
-          <Text style={styles.title}>{job.title}</Text>
-          <Text style={styles.location}>{job.city}</Text>
-          <Text style={styles.cost}>CAD {job.hourly_rate}/day</Text>
+          <Text style={styles.title}>{job.job_offer.title}</Text>
+          <Text style={styles.location}>{job.job_offer.city}</Text>
+          <Text style={styles.cost}>CAD {job.job_offer.hourly_rate}/day</Text>
           <Text style={styles.descriptionTitle}>Job Description</Text>
-          <Text style={styles.descriptionTxt}>{job.description}</Text>
+          <Text style={styles.descriptionTxt}>{job.job_offer.description}</Text>
           <Text style={styles.readMore}>Read more</Text>
           <Text style={styles.descriptionTitle}>Requirements</Text>
-          {job.requirements.map((requirement, key) => (
+          {job.job_offer.requirements.map((requirement, key) => (
             <View key={key} style={styles.requirementHolder}>
               <Dot height={10} width={10} />
               <Text style={styles.requirementText}>{requirement}</Text>
             </View>
           ))}
           <Text style={styles.descriptionTitle}>Arrival Instructions</Text>
-          <Text style={styles.descriptionTxt}>{job.arrival_instructions}</Text>
+          <Text style={styles.descriptionTxt}>
+            {job.job_offer.arrival_instructions}
+          </Text>
 
           {isApplied ? (
             <View style={styles.directionHolder}>
               <Pressable
-                onPress={() => locate(job)}
+                onPress={() => locate(job.job_offer)}
                 style={styles.directionBtn}>
                 <DirectionIcon />
                 <Text style={styles.directionBtnTxt}>
@@ -132,13 +137,7 @@ const JobDetails = ({navigation, route}) => {
                     // month: 'numeric',
                     day: 'numeric',
                   };
-                  console.log(
-                    `${new Date().getFullYear()}-${String(
-                      new Date().getDate(),
-                    ).padStart(2, '0')}-${String(
-                      new Date().getMonth() + 1,
-                    ).padStart(2, '0')}:00:00:00`,
-                  );
+                
                 }}
                 style={styles.cancelBtn}>
                 <Text style={styles.cancelBtnTxt}>{'Cancel Job'}</Text>
@@ -147,7 +146,7 @@ const JobDetails = ({navigation, route}) => {
           ) : (
             <Pressable
               disabled={isApplied}
-              onPress={() => apply(job.id)}
+              onPress={() => apply(job.job_offer.id)}
               style={styles.btn}>
               <Text style={styles.btnTxt}>
                 {loading ? 'Loading...' : 'Apply'}

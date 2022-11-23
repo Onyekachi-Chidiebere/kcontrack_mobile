@@ -68,8 +68,6 @@ const useJobDetails = job => {
         // that falls out of the range of 2xx
 
         console.log('data', error.response.data);
-        console.log('status', error.response.status);
-        console.log('headers', error.response.headers);
         for (let key in error.response.data.errors)
           errors.push(error.response.data.errors[key]);
         errors.push(error.response.data.message);
@@ -105,17 +103,10 @@ const useJobDetails = job => {
   const onScan = async props => {
     try {
       const data = props.data.split('*');
-      console.log({
-        date: data[1],
-        companyId: data[0],
-        job_id: job.id,
-        userId: user.id,
-        jwt: user.jwt,
-      });
       setScanning(true);
       setShowScan(false);
       console.log({
-        job_id: job.id,
+        job_id: job.job_offer.id,
         date: data[1],
         user_id: user.id,
         company_id: data[0],
@@ -137,7 +128,6 @@ const useJobDetails = job => {
       );
       setScanning(false);
       //navigate to logged in screen
-      console.log({response});
       navigation.navigate('checkin');
     } catch (error) {
       setScanning(false);
@@ -152,7 +142,6 @@ const useJobDetails = job => {
         });
       } else if (error.request) {
         // The request was made but no response was received
-        console.log(error.request);
         setAlert({
           close: () => setAlert(false),
           title: 'Error',
@@ -162,7 +151,6 @@ const useJobDetails = job => {
         });
       } else {
         // Something happened in setting up the request that triggered an Error
-        console.log('Error', error.message);
         setAlert({
           close: () => setAlert(false),
           title: 'Error',
@@ -269,6 +257,64 @@ const useJobDetails = job => {
       return error;
     }
   };
+
+  const getCheckinStatus = async id => {
+    try {
+      setLoading(true);
+      //ensure all required fields are provided;
+
+      const response = await axios.get(`${API_URL}/application/show/${id}`, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${user.jwt}`,
+        },
+      });
+      console.log({mmm: response});
+      // dispatch(updateAppliedJob(response.data.data));
+      //handle success
+      //   setJobs(response.data.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+
+        console.log('data', error.response.data);
+        console.log('status', error.response.status);
+        console.log('headers', error.response.headers);
+        for (let key in error.response.data.errors)
+          errors.push(error.response.data.errors[key]);
+        errors.push(error.response.data.message);
+
+        return setAlert({
+          close: () => setAlert(false),
+          title: 'Error',
+          icon: 'error',
+          confirmText: 'Ok',
+          message: errors,
+        });
+        //handle error
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log('request', error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log('Error', error.message);
+      }
+      console.log('config', error.config);
+      return setAlert({
+        close: () => setAlert(false),
+        title: 'Error',
+        icon: 'error',
+        confirmText: 'Ok',
+        message: ['Network Error'],
+      });
+      //handle catch error
+    }
+  };
   return {
     loading,
     alert,
@@ -282,6 +328,7 @@ const useJobDetails = job => {
     scanning,
     setShowScan,
     onScan,
+    getCheckinStatus,
   };
 };
 

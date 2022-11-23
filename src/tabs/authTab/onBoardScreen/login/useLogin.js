@@ -65,7 +65,6 @@ const useLogin = () => {
         email: email.trim(),
         password: password,
       });
-      console.log({user: response.data.data.user.profile.gender});
       dispatch(
         login({
           jwt: response.data.data.bearer_token,
@@ -83,8 +82,6 @@ const useLogin = () => {
         // that falls out of the range of 2xx
 
         console.log('data', error.response.data);
-        console.log('status', error.response.status);
-        console.log('headers', error.response.headers);
         for (let key in error.response.data.errors)
           errors.push(error.response.data.errors[key]);
         errors.push(error.response.data.message);
@@ -115,7 +112,6 @@ const useLogin = () => {
         // The request was made but no response was received
         // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
         // http.ClientRequest in node.js
-        console.log('request', error.request);
       } else {
         // Something happened in setting up the request that triggered an Error
         console.log('Error', error.message);
